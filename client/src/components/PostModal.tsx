@@ -13,6 +13,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose, onStartChat }) => 
   
   if (!post) return null;
 
+  const handleClose = () => {
+    setCurrentImageIndex(0);
+    onClose();
+  };
+
   const handleStartChat = () => {
     onStartChat?.();
     onClose();
@@ -31,14 +36,14 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose, onStartChat }) => 
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/50 z-[60]"
-        onClick={onClose}
+        onClick={handleClose}
       />
       
       {/* Modal */}
       <div className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-4xl bg-white rounded-xl shadow-xl z-[70] overflow-hidden flex flex-col max-h-[calc(100vh-2rem)]">
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-black/30 text-white transition-colors z-10"
           aria-label="Close modal"
         >
@@ -48,11 +53,11 @@ const PostModal: React.FC<PostModalProps> = ({ post, onClose, onStartChat }) => 
         {/* Scrollable Content */}
         <div className="overflow-y-auto">
           {/* Image Gallery */}
-          <div className="relative h-64 sm:h-72">
+          <div className="relative aspect-[16/9] max-h-[70vh]">
             <img 
               src={post.images[currentImageIndex]} 
               alt={`${post.title} - Image ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-gray-100"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent" />
             
